@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,8 +7,38 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
 </head>
 <body>
+
+{% if user.is_authenticated %}
+<div class="menu">
+    <div class="wrap">
+        <ul>
+            <li class="logo"><a href="">Пользователь: {{user.username}}</a></li>
+            <li><a href="{% url 'currenttodos' %}">Актуальные задачи</a></li>
+
+            <li>
+                <form action="{% url 'logoutuser' %}" method="post">
+                    {% csrf_token %}
+                    <button class="top">Выйти</button>
+                </form>
+        </ul>
+    </div>
+</div>
+
+{% else %}
+<div class="menu">
+    <div class="wrap">
+        <ul>
+            <li><a href="{% url 'signupuser' %}">Зарегистрироваться</a></li>
+            <li><a href="{% url 'loginuser' %}">Войти</a></li>
+        </ul>
+    </div>
+</div>
+
+{% endif %}
+
     <div class="content">
         <div class="wrap">
             {% block content %}
